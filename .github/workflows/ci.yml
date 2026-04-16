@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift version
+        run: swift --version
+      - name: Install SwiftLint
+        run: brew install swiftlint
+      - name: Generate version files
+        run: scripts/generate-version.sh
+      - name: Swift format lint
+        run: swift format lint --recursive Sources Tests
+      - name: SwiftLint
+        run: swiftlint
+      - name: Swift test + coverage
+        run: scripts/check-coverage.sh
+      - name: Swift build
+        run: swift build -c release --product remindctl
