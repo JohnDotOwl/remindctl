@@ -87,6 +87,7 @@ public struct ReminderItem: Identifiable, Codable, Sendable, Equatable {
     Self.extractTrailingTags(from: title).title
   }
 
+  // swiftlint:disable:next force_try
   private static let trailingTagPattern = try! NSRegularExpression(
     pattern: "(?:^|\\s)#([A-Za-z0-9][A-Za-z0-9_-]*)$"
   )
